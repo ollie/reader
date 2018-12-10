@@ -7,7 +7,7 @@ class ReadChannelInfo
     timeout:        5,
     connecttimeout: 10,
     headers: {
-      'User-Agent' => 'RSS Reader - https://github.com/ollie/rss-reader',
+      'User-Agent' => 'RSS Reader - https://github.com/ollie/reader',
       'Accept'     => 'application/rss+xml'
     }
   }.freeze
