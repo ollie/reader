@@ -1,0 +1,22 @@
+cs:
+  title: Reader
+
+  request_timed_out: Jejda, spojení selhalo, zkuste to prosím znovu.
+  request_failed: Jejda, nelze navázat kontakt. (%{message})
+  not_a_rss_feed: Jejda, zdá se, že odkaz nevede na RSS feed. (%{message})
+
+  channel_created: Zdroj byl úspěšně vytvořen.
+  channel_updated: Zdroj byl úspěšně upraven.
+  channel_deleted: Zdroj byl úspěšně smazán.
+  channel_synced: Zdroj byl úspěšně zaktualizován.
+  channels_synced: Zdroje byly úspěšně zaktualizovány.
+
+  # Reader
+  mark_all_as_read: Vše přečteno
+  mark_as_read: Nastavit jako přečtené
+  mark_as_unread: Nastavit jako nepřečtené
+  marked_as_read: Přečtené
+  marked_as_unread: Nepřečtené
+  expand_content: Rozbalit obsah
+  update: Zaktualizovat
+  channels: Zdroje

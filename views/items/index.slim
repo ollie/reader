@@ -1,0 +1,92 @@
+.row
+  / Item
+  .col-12.col-md-8.order-md-last
+    h1
+      a#item-title href=item.link target="_blank"
+        = item.title
+
+    p#item-info class=('d-none' unless item.info)
+      = item.info
+
+    / Mark as read/unread button for desktop
+    p.d-none.d-md-block
+      a.js-item-mark-as-read.btn.btn-primary(
+        class=('d-none' if item.read)
+        href=api_mark_item_as_read_path(item.id)
+      )
+        == icon(:check)
+        span.ml-1.align-middle<
+          | Nastavit jako přečtené
+      a.js-item-mark-as-unread.btn.btn-outline-secondary(
+        class=('d-none' unless item.read)
+        href=api_mark_item_as_unread_path(item.id)
+      )
+        == icon(:x)
+        span.ml-1.align-middle<
+          | Nastavit jako nepřečtené
+
+    / Content
+    div#item-content class=('d-none' unless item.description.present?)
+      == item.sanitized_description
+
+    / Mark as read/unread button for small devices
+    p.d-md-none.mt-3
+      a.js-item-mark-as-read.btn.btn-primary.btn-block(
+        class=('d-none' if item.read)
+        href=api_mark_item_as_read_path(item.id)
+      )
+        == icon(:check)
+        span.ml-1.align-middle<
+          | Nastavit jako přečtené
+      a.js-item-mark-as-unread.btn.btn-outline-secondary.btn-block(
+        class=('d-none' unless item.read)
+        href=api_mark_item_as_unread_path(item.id)
+      )
+        == icon(:x)
+        span.ml-1.align-middle<
+          | Nastavit jako nepřečtené
+
+    hr#anchor.d-md-none
+
+  / Channels
+  .col-6.col-md-2
+    p.row
+      span.col-6
+        a.btn.btn-outline-info.btn-sm.btn-block.text-truncate href=api_mark_channels_as_read_path
+          == icon(:check)
+          span.d-none.d-lg-inline.ml-1.align-middle<
+            | Přečteno
+      span.col-6
+        a.btn.btn-outline-info.btn-sm.btn-block.text-truncate href=api_sync_channels_path
+          == icon(:sync)
+          span.d-none.d-lg-inline.ml-1.align-middle<
+            | Načíst
+    ul.list-unstyled#channels-wrapper
+      - channels.each_with_index do |channel, index|
+        li.reader-item class=('js-active' if index.zero?)
+          a.js-link.row.py-1.text-dark class=('bg-lighter' if index.zero?) href=api_channel_path(channel.id)
+            span.col-9.text-truncate
+              = channel.title
+            span.col-3.text-right<
+              span.js-counter.badge.badge-pill.badge-secondary class=('d-none' if channel.unread_items_count.zero?)
+                = channel.unread_items_count
+
+  / Items
+  .col-6.col-md-2
+    p.row
+      span.col-6
+        a#mark-channel-as-read-link.btn.btn-outline-info.btn-sm.btn-block.text-truncate href=api_mark_channel_as_read_path(item.channel_id)
+          == icon(:check)
+          span.d-none.d-lg-inline.ml-1.align-middle<
+            | Přečteno
+      span.col-6
+        a#sync-channel-link.btn.btn-outline-info.btn-sm.btn-block.text-truncate href=api_sync_channel_path(item.channel_id)
+          == icon(:sync)
+          span.d-none.d-lg-inline.ml-1.align-middle<
+            | Načíst
+    ul.list-unstyled#items-wrapper
+      - items.each_with_index do |item, index|
+        == mustache('items/_item', item_data_for_mustache(item, index))
+
+script#item-template type="text/x-mustache-template"
+  == read_mustache_template('items/_item')

@@ -1,0 +1,21 @@
+doctype html
+html lang="cs"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    title = title(nil, head: true)
+    link rel="icon" href="/images/favicon-64x64.png" sizes="32x32" type="image/png"
+    link rel="stylesheet" href="/css-vendor/bootstrap-4.1.3.min.css"
+    link rel="stylesheet" href="/css-vendor/octicons-8.1.0.css"
+    script src="/js-vendor/jquery-3.3.1.min.js"
+    script src="/js-vendor/bootstrap-4.1.3.bundle.min.js"
+    - if Settings.production?
+      script src="/js/app.js"
+    - else
+      script src="/coffee/app.coffee" type="text/coffeescript"
+      script src="/compilers/coffeescript-2.3.2.min.js"
+  body
+    .container.pt-3.pb-5
+      == partial_slim 'layouts/_menu'
+      == partial_slim 'layouts/_flash'
+      == yield

@@ -1,0 +1,7 @@
+development:
+  database: TODO
+
+production:
+  database: TODO
+  username: TODO
+  password: TODO

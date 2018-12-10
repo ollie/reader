@@ -1,0 +1,6 @@
+/config/database.yml
+/config/secrets.yml
+/log
+/config/deploy
+/config/deploy.rb
+/todo.txt

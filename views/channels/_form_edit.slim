@@ -1,0 +1,52 @@
+form action=url method="post"
+  .form-group.row.offset-sm-3.col-sm-9
+    .form-check
+      input type="hidden" name="channel[enabled]" value="0"
+      input.form-check-input> type="checkbox" name="channel[enabled]" value="1" id="channel-enabled" checked=channel.enabled
+      label.form-check-label for="channel-enabled" Aktivní?
+  .form-group.row
+    label.col-sm-3.col-form-label> for="channel-title" Název
+    .col-sm-9
+      input.form-control>(
+        type="text"
+        name="channel[title]"
+        id="channel-title"
+        placeholder="Název"
+        value=channel.title
+        autofocus="autofocus"
+        class=('is-invalid' if channel.errors.on(:title))
+      )
+      - if channel.errors.on(:title)
+        .invalid-feedback = channel.errors.on(:title).join(', ')
+  .form-group.row
+    label.col-sm-3.col-form-label> for="channel-feed-link" URL zdroje
+    .col-sm-9
+      input.form-control>(
+        type="text"
+        name="channel[feed_link]"
+        id="channel-feed-link"
+        placeholder="http://www.example.org/feed.rss"
+        value=channel.feed_link
+        class=('is-invalid' if channel.errors.on(:feed_link))
+      )
+      - if channel.errors.on(:feed_link)
+        .invalid-feedback = channel.errors.on(:feed_link).join(', ')
+  .form-group.row
+    label.col-sm-3.col-form-label> for="channel-html-link" URL na web
+    .col-sm-9
+      input.form-control>(
+        type="text"
+        name="channel[html_link]"
+        id="channel-html-link"
+        placeholder="http://www.example.org/"
+        value=channel.html_link
+        class=('is-invalid' if channel.errors.on(:html_link))
+      )
+      - if channel.errors.on(:html_link)
+        .invalid-feedback = channel.errors.on(:html_link).join(', ')
+  .form-group.row
+    .offset-sm-3.col-sm-9
+      button.btn.btn-primary type="submit"
+        | Uložit
+
+      a.btn.btn-outline-secondary< href=channels_path Storno

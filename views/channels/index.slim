@@ -1,0 +1,65 @@
+h1.mt-3.mb-3 = title 'Zdroje'
+
+p
+  a.btn.btn-primary> href=new_channel_path Přidat nový zdroj
+
+table.table
+  thead
+    th.pl-0.align-middle scope="col" Název
+    th.align-middle
+    th.align-middleh scope="col" Položek
+    th.pr-0.align-middle.text-right.text-nowrap
+      form action=sync_channels_path method="post"
+        button.btn.btn-outline-primary.btn-sm type="submit"
+          | Zaktualizovat vše
+  tbody
+    - channels.each do |channel|
+      tr
+        th.pl-0.align-middle scope="row"
+          a href=edit_channel_path(channel.id)
+            - if channel.enabled
+              = channel.title
+            - else
+              del.text-secondary = channel.title
+
+        td.align-middle.text-nowrap
+          a.p-1.text-secondary<(
+            href=channel.feed_link
+            target="_blank"
+            data-toggle="tooltip"
+            data-placement="top"
+            title=channel.feed_link
+          ) == icon(:rss)
+
+          - unless channel.html_link == channel.feed_link
+            a.p-1.text-secondary<(
+              href=channel.feed_link target="_blank"
+              data-toggle="tooltip"
+              data-placement="top"
+              title=channel.feed_link
+            ) == icon(:browser)
+
+          - if channel.status && !channel.status.empty?
+            span.p-1.text-secondary<(
+              data-toggle="tooltip"
+              data-placement="top"
+              title=channel.status
+            ) == icon(:alert)
+        td.align-middle
+          small
+            = channel.items_count
+            - unless channel.unread_items_count.zero?
+              strong<
+                | (+#{channel.unread_items_count})
+        td.pr-0.align-middle.text-right.text-nowrap
+          form.d-inline-block action=sync_channel_path(channel.id) method="post"
+            button.btn.btn-outline-primary.btn-sm type="submit"
+              | Načíst
+
+          form.d-inline-block(
+            action=delete_channel_path(channel.id)
+            method="post"
+            data-confirm="Opravdu si přejete smazat zdroj #{channel.title}?"
+          )
+            button.btn.btn-outline-danger.btn-sm type="submit"
+              | Smazat

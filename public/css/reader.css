@@ -1,0 +1,20 @@
+.reader-item {
+  font-size: 0.875rem;
+}
+
+.reader-item a {
+  text-decoration: none;
+}
+
+.reader-item a:hover {
+  background-color: #eeeef1 !important;
+}
+
+.bg-lighter {
+  background-color: #eeeef1 !important;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

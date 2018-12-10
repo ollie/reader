@@ -1,0 +1,5 @@
+cs:
+  sequel:
+    errors:
+      invalid_url: není URL
+      presence: je povinná položka

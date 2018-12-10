@@ -1,0 +1,12 @@
+/* This is custom */
+.octicon {
+  display: inline-block;
+  fill: currentColor;
+}
+
+/* This is custom */
+.octicon > svg {
+  max-width: 100%;
+  width: auto;
+  height: 20px;
+}

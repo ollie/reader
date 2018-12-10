@@ -1,0 +1,27 @@
+form action=url method="post"
+  .form-group.row.offset-sm-3.col-sm-9
+    .form-check
+      input type="hidden" name="channel[enabled]" value="0"
+      input.form-check-input> type="checkbox" name="channel[enabled]" value="1" id="channel-enabled" checked=channel.enabled
+      label.form-check-label for="channel-enabled" Aktivní?
+  .form-group.row
+    label.col-sm-3.col-form-label> for="channel-feed-link" URL
+    .col-sm-9
+      input.form-control>(
+        type="text"
+        name="channel[feed_link]"
+        id="channel-feed-link"
+        placeholder="http://www.example.org/feed.rss"
+        value=channel.feed_link
+        autofocus="autofocus"
+        class=('is-invalid' if channel.errors.on(:feed_link))
+      )
+      - if channel.errors.on(:feed_link)
+        .invalid-feedback = channel.errors.on(:feed_link).join(', ')
+  .form-group.row
+    .offset-sm-3.col-sm-9
+      button.btn.btn-primary type="submit"
+        | Uložit
+
+      - unless Channel.empty?
+        a.btn.btn-outline-secondary< href=channels_path Storno

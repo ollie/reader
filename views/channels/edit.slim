@@ -1,0 +1,5 @@
+h1.mt-3.mb-3 = title "Upravit zdroj #{channel.title}"
+
+.row
+  .col-sm-6
+    == partial_slim 'channels/_form_edit', channel: channel, url: edit_channel_path(channel.id)
