@@ -9,7 +9,11 @@
       this._handleMarkAsReadClick = bind(this._handleMarkAsReadClick, this);
       this._handleItemClick = bind(this._handleItemClick, this);
       this._handleChannelClick = bind(this._handleChannelClick, this);
+      this._handleScrollLinkClick = bind(this._handleScrollLinkClick, this);
       var $itemTemplate;
+      this.htmlBody = $('html, body');
+      this.scrollLink = $('#scroll-link');
+      this.anchor = $('#anchor');
       this.channelsWrapper = $('#channels-wrapper');
       this.itemsWrapper = $('#items-wrapper');
       this.markChannelAsReadLink = $('#mark-channel-as-read-link');
@@ -23,11 +27,16 @@
       this.itemTemplate = Hogan.compile($itemTemplate.html());
       this.activeChannel = this.channelsWrapper.find('.js-active');
       this.activeItem = this.itemsWrapper.find('.js-active');
+      this.scrollLink.on('click', this._handleScrollLinkClick);
       this.channelsWrapper.on('click', '.js-link', this._handleChannelClick);
       this.itemsWrapper.on('click', '.js-link', this._handleItemClick);
       this.itemMarkAsRead.on('click', this._handleMarkAsReadClick);
       this.itemMarkAsUnread.on('click', this._handleMarkAsUnreadClick);
     }
+
+    App.prototype._handleScrollLinkClick = function() {
+      return this._scrollToAnchor();
+    };
 
     App.prototype._handleChannelClick = function(e) {
       var $li, $link;
@@ -60,7 +69,6 @@
               _this.itemMarkAsRead.removeClass('d-none');
             }
             _this.itemContent.html(itemData.description);
-            window.scrollTo(0, 0);
             _this.activeChannel = $li;
             return _this.activeItem = _this.itemsWrapper.find('.js-active');
           };
@@ -94,7 +102,7 @@
               _this.itemMarkAsRead.removeClass('d-none');
             }
             _this.itemContent.html(data.description);
-            window.scrollTo(0, 0);
+            _this._scrollToTop();
             return _this.activeItem = $li;
           };
         })(this)
@@ -165,6 +173,29 @@
         html += '\n';
       }
       return this.itemsWrapper.html(html);
+    };
+
+    App.prototype._scrollToTop = function() {
+      if (!this._isSmallDevice()) {
+        return;
+      }
+      return this.htmlBody.animate({
+        scrollTop: 0
+      }, 250);
+    };
+
+    App.prototype._scrollToAnchor = function() {
+      var scrollTo, topOffset, windowHeight;
+      topOffset = this.anchor.offset().top;
+      windowHeight = $(window).height();
+      scrollTo = topOffset;
+      return this.htmlBody.animate({
+        scrollTop: scrollTo
+      }, 250);
+    };
+
+    App.prototype._isSmallDevice = function() {
+      return this.scrollLink.is(':visible');
     };
 
     return App;
