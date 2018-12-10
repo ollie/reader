@@ -6,6 +6,7 @@ gem 'i18n'
 gem 'multi_json'
 gem 'multi_xml'
 gem 'oj'
+gem 'ox'
 gem 'pg'
 gem 'pry', require: false
 gem 'sequel'
