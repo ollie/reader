@@ -66,6 +66,7 @@ class App
           @itemMarkAsRead.removeClass('d-none')
 
         @itemContent.html(itemData.description)
+        this._scrollToTop() unless itemData.read
 
         @activeChannel = $li
         @activeItem    = @itemsWrapper.find('.js-active')

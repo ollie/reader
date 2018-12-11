@@ -69,6 +69,9 @@
               _this.itemMarkAsRead.removeClass('d-none');
             }
             _this.itemContent.html(itemData.description);
+            if (!itemData.read) {
+              _this._scrollToTop();
+            }
             _this.activeChannel = $li;
             return _this.activeItem = _this.itemsWrapper.find('.js-active');
           };
