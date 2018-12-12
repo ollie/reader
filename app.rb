@@ -119,7 +119,7 @@ class App < Sinatra::Base
   # API
   #####
 
-  get Route(api_mark_channels_as_read: '/api/channels/mark-as-read') do
+  patch Route(api_mark_channels_as_read: '/api/channels/mark-as-read') do
     Item.mark_as_read
     redirect items_path
   end
@@ -150,7 +150,7 @@ class App < Sinatra::Base
       read: item.read,
       mark_as_read_url: api_mark_item_as_read_path(item.id),
       mark_as_unread_url: api_mark_item_as_unread_path(item.id),
-      description: item.description
+      description: item.sanitized_description
     }
 
     data = {
@@ -163,7 +163,7 @@ class App < Sinatra::Base
     json data
   end
 
-  get Route(api_mark_channel_as_read: '/api/channels/:id/mark-as-read') do
+  patch Route(api_mark_channel_as_read: '/api/channels/:id/mark-as-read') do
     channel = Channel.with_pk!(params[:id])
     channel.mark_as_read
     redirect items_path
@@ -190,7 +190,7 @@ class App < Sinatra::Base
       read: item.read,
       mark_as_read_url: api_mark_item_as_read_path(item.id),
       mark_as_unread_url: api_mark_item_as_unread_path(item.id),
-      description: item.description
+      description: item.sanitized_description
     }
 
     json data

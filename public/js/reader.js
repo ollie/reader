@@ -9,6 +9,8 @@
       this._handleMarkAsReadClick = bind(this._handleMarkAsReadClick, this);
       this._handleItemClick = bind(this._handleItemClick, this);
       this._handleChannelClick = bind(this._handleChannelClick, this);
+      this._handleMarkChannelAsReadClick = bind(this._handleMarkChannelAsReadClick, this);
+      this._handleMarkChannelsAsReadClick = bind(this._handleMarkChannelsAsReadClick, this);
       this._handleScrollLinkClick = bind(this._handleScrollLinkClick, this);
       var $itemTemplate;
       this.htmlBody = $('html, body');
@@ -16,6 +18,7 @@
       this.anchor = $('#anchor');
       this.channelsWrapper = $('#channels-wrapper');
       this.itemsWrapper = $('#items-wrapper');
+      this.markChannelsAsReadLink = $('#mark-channels-as-read-link');
       this.markChannelAsReadLink = $('#mark-channel-as-read-link');
       this.syncChannelLink = $('#sync-channel-link');
       this.itemTitle = $('#item-title');
@@ -28,6 +31,8 @@
       this.activeChannel = this.channelsWrapper.find('.js-active');
       this.activeItem = this.itemsWrapper.find('.js-active');
       this.scrollLink.on('click', this._handleScrollLinkClick);
+      this.markChannelsAsReadLink.on('click', this._handleMarkChannelsAsReadClick);
+      this.markChannelAsReadLink.on('click', this._handleMarkChannelAsReadClick);
       this.channelsWrapper.on('click', '.js-link', this._handleChannelClick);
       this.itemsWrapper.on('click', '.js-link', this._handleItemClick);
       this.itemMarkAsRead.on('click', this._handleMarkAsReadClick);
@@ -36,6 +41,57 @@
 
     App.prototype._handleScrollLinkClick = function() {
       return this._scrollToAnchor();
+    };
+
+    App.prototype._handleMarkChannelsAsReadClick = function(e) {
+      var $counter, $item, $link, channel, i, item, j, len, len1, ref, ref1;
+      e.preventDefault();
+      $link = $(e.currentTarget);
+      ref = this.channelsWrapper.find('.reader-item');
+      for (i = 0, len = ref.length; i < len; i++) {
+        channel = ref[i];
+        $counter = $(channel).find('.js-counter');
+        if (!$counter.length) {
+          continue;
+        }
+        $counter.text(0);
+        $counter.addClass('d-none');
+      }
+      ref1 = this.itemsWrapper.find('.font-weight-bold');
+      for (j = 0, len1 = ref1.length; j < len1; j++) {
+        item = ref1[j];
+        $item = $(item);
+        $item.removeClass('font-weight-bold');
+        $item.find('a').removeClass('text-dark').addClass('text-secondary');
+      }
+      this.itemMarkAsRead.addClass('d-none');
+      this.itemMarkAsUnread.removeClass('d-none');
+      return $.ajax({
+        url: $link.attr('href'),
+        method: 'patch'
+      });
+    };
+
+    App.prototype._handleMarkChannelAsReadClick = function(e) {
+      var $counter, $item, $link, i, item, len, ref;
+      e.preventDefault();
+      $link = $(e.currentTarget);
+      $counter = this.activeChannel.find('.js-counter');
+      $counter.text(0);
+      $counter.addClass('d-none');
+      ref = this.itemsWrapper.find('.font-weight-bold');
+      for (i = 0, len = ref.length; i < len; i++) {
+        item = ref[i];
+        $item = $(item);
+        $item.removeClass('font-weight-bold');
+        $item.find('a').removeClass('text-dark').addClass('text-secondary');
+      }
+      this.itemMarkAsRead.addClass('d-none');
+      this.itemMarkAsUnread.removeClass('d-none');
+      return $.ajax({
+        url: $link.attr('href'),
+        method: 'patch'
+      });
     };
 
     App.prototype._handleChannelClick = function(e) {

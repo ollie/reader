@@ -1,24 +1,27 @@
 class App
   constructor: ->
-    @htmlBody              = $('html, body')
-    @scrollLink            = $('#scroll-link')
-    @anchor                = $('#anchor')
-    @channelsWrapper       = $('#channels-wrapper')
-    @itemsWrapper          = $('#items-wrapper')
-    @markChannelAsReadLink = $('#mark-channel-as-read-link')
-    @syncChannelLink       = $('#sync-channel-link')
-    @itemTitle             = $('#item-title')
-    @itemInfo              = $('#item-info')
-    @itemContent           = $('#item-content')
-    @itemMarkAsRead        = $('.js-item-mark-as-read')
-    @itemMarkAsUnread      = $('.js-item-mark-as-unread')
-    $itemTemplate          = $('#item-template')
-    @itemTemplate          = Hogan.compile($itemTemplate.html())
+    @htmlBody               = $('html, body')
+    @scrollLink             = $('#scroll-link')
+    @anchor                 = $('#anchor')
+    @channelsWrapper        = $('#channels-wrapper')
+    @itemsWrapper           = $('#items-wrapper')
+    @markChannelsAsReadLink = $('#mark-channels-as-read-link')
+    @markChannelAsReadLink  = $('#mark-channel-as-read-link')
+    @syncChannelLink        = $('#sync-channel-link')
+    @itemTitle              = $('#item-title')
+    @itemInfo               = $('#item-info')
+    @itemContent            = $('#item-content')
+    @itemMarkAsRead         = $('.js-item-mark-as-read')
+    @itemMarkAsUnread       = $('.js-item-mark-as-unread')
+    $itemTemplate           = $('#item-template')
+    @itemTemplate           = Hogan.compile($itemTemplate.html())
 
     @activeChannel = @channelsWrapper.find('.js-active')
     @activeItem    = @itemsWrapper.find('.js-active')
 
     @scrollLink.on('click',                  this._handleScrollLinkClick)
+    @markChannelsAsReadLink.on('click',      this._handleMarkChannelsAsReadClick)
+    @markChannelAsReadLink.on('click',       this._handleMarkChannelAsReadClick)
     @channelsWrapper.on('click', '.js-link', this._handleChannelClick)
     @itemsWrapper.on('click',    '.js-link', this._handleItemClick)
     @itemMarkAsRead.on('click',              this._handleMarkAsReadClick)
@@ -26,6 +29,50 @@ class App
 
   _handleScrollLinkClick: =>
     this._scrollToAnchor()
+
+  _handleMarkChannelsAsReadClick: (e) =>
+    e.preventDefault()
+    $link = $(e.currentTarget)
+
+    for channel in @channelsWrapper.find('.reader-item')
+      $counter = $(channel).find('.js-counter')
+
+      continue unless $counter.length
+
+      $counter.text(0)
+      $counter.addClass('d-none')
+
+    for item in @itemsWrapper.find('.font-weight-bold')
+      $item = $(item)
+      $item.removeClass('font-weight-bold')
+      $item.find('a').removeClass('text-dark').addClass('text-secondary')
+
+    @itemMarkAsRead.addClass('d-none')
+    @itemMarkAsUnread.removeClass('d-none')
+
+    $.ajax
+      url: $link.attr('href')
+      method: 'patch'
+
+  _handleMarkChannelAsReadClick: (e) =>
+    e.preventDefault()
+    $link = $(e.currentTarget)
+
+    $counter = @activeChannel.find('.js-counter')
+    $counter.text(0)
+    $counter.addClass('d-none')
+
+    for item in @itemsWrapper.find('.font-weight-bold')
+      $item = $(item)
+      $item.removeClass('font-weight-bold')
+      $item.find('a').removeClass('text-dark').addClass('text-secondary')
+
+    @itemMarkAsRead.addClass('d-none')
+    @itemMarkAsUnread.removeClass('d-none')
+
+    $.ajax
+      url: $link.attr('href')
+      method: 'patch'
 
   _handleChannelClick: (e) =>
     e.preventDefault()
