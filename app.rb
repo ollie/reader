@@ -121,7 +121,7 @@ class App < Sinatra::Base
 
   patch Route(api_mark_channels_as_read: '/api/channels/mark-as-read') do
     Item.mark_as_read
-    redirect items_path
+    halt 204
   end
 
   get Route(api_sync_channels: '/api/channels/sync') do
@@ -166,7 +166,7 @@ class App < Sinatra::Base
   patch Route(api_mark_channel_as_read: '/api/channels/:id/mark-as-read') do
     channel = Channel.with_pk!(params[:id])
     channel.mark_as_read
-    redirect items_path
+    halt 204
   end
 
   get Route(api_sync_channel: '/api/channels/:id/sync') do
