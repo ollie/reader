@@ -10,7 +10,7 @@
 
     / Mark as read/unread button for desktop
     p.d-none.d-md-block
-      a.js-item-mark-as-read.btn.btn-primary(
+      a.js-item-mark-as-read.btn.btn-primary>(
         class=('d-none' if item.read)
         href=api_mark_item_as_read_path(item.id)
       )
@@ -31,7 +31,7 @@
 
     / Mark as read/unread button for small devices
     p.d-md-none.mt-3
-      a.js-item-mark-as-read.btn.btn-primary.btn-block(
+      a.js-item-mark-as-read.btn.btn-primary.btn-block>(
         class=('d-none' if item.read)
         href=api_mark_item_as_read_path(item.id)
       )
@@ -50,17 +50,15 @@
 
   / Channels
   .col-6.col-md-2
-    p.row
-      span.col-6
-        a#mark-channels-as-read-link.btn.btn-outline-info.btn-sm.btn-block.text-truncate href=api_mark_channels_as_read_path
-          == icon(:check)
-          span.d-none.d-lg-inline.ml-1.align-middle<
-            | Přečteno
-      span.col-6
-        a.btn.btn-outline-info.btn-sm.btn-block.text-truncate href=api_sync_channels_path
-          == icon(:sync)
-          span.d-none.d-lg-inline.ml-1.align-middle<
-            | Načíst
+    p.btn-group.d-flex
+      a#mark-channels-as-read-link.w-100.btn.btn-outline-info.btn-sm.text-truncate> href=api_mark_channels_as_read_path
+        == icon(:check)
+        span.d-none.d-lg-inline.ml-1.align-middle<
+          | Přečteno
+      a.btn.btn-outline-info.w-100.btn-sm.text-truncate href=api_sync_channels_path
+        == icon(:sync)
+        span.d-none.d-lg-inline.ml-1.align-middle<
+          | Načíst
     ul.list-unstyled#channels-wrapper
       - channels.each_with_index do |channel, index|
         li.reader-item class=('js-active' if index.zero?)
@@ -73,17 +71,15 @@
 
   / Items
   .col-6.col-md-2
-    p.row
-      span.col-6
-        a#mark-channel-as-read-link.btn.btn-outline-info.btn-sm.btn-block.text-truncate href=api_mark_channel_as_read_path(item.channel_id)
-          == icon(:check)
-          span.d-none.d-lg-inline.ml-1.align-middle<
-            | Přečteno
-      span.col-6
-        a#sync-channel-link.btn.btn-outline-info.btn-sm.btn-block.text-truncate href=api_sync_channel_path(item.channel_id)
-          == icon(:sync)
-          span.d-none.d-lg-inline.ml-1.align-middle<
-            | Načíst
+    p.btn-group.d-flex
+      a#mark-channel-as-read-link.w-100.btn.btn-outline-info.btn-sm.text-truncate> href=api_mark_channel_as_read_path(item.channel_id)
+        == icon(:check)
+        span.d-none.d-lg-inline.ml-1.align-middle<
+          | Přečteno
+      a#sync-channel-link.w-100.btn.btn-outline-info.btn-sm.text-truncate href=api_sync_channel_path(item.channel_id)
+        == icon(:sync)
+        span.d-none.d-lg-inline.ml-1.align-middle<
+          | Načíst
     ul.list-unstyled#items-wrapper
       - items.each_with_index do |item, index|
         == mustache('items/_item', item_data_for_mustache(item, index))

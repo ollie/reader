@@ -14,9 +14,24 @@ class Channel < Sequel::Model
   ##############
 
   one_to_many :items, order: Sequel.desc(:pub_date)
-  # one_to_many :unread_items, class: :Item do |ds|
-  #   ds.where(read: false)
-  # end
+
+  #################
+  # Dataset methods
+  #################
+
+  dataset_module do
+    def enabled
+      where(enabled: true)
+    end
+
+    def ordered_for_reader
+      order(Sequel.desc(:unread_items_count), :title)
+    end
+
+    def ordered_for_channels_list
+      order(Sequel.desc(:enabled), Sequel.desc(:unread_items_count), :title)
+    end
+  end
 
   #############
   # Validations
@@ -41,25 +56,9 @@ class Channel < Sequel::Model
     validates_format %r{\Ahttps?://}, :html_link, message: I18n.t('sequel.errors.invalid_url')
   end
 
-  #################
-  # Dataset methods
-  #################
-
-  dataset_module do
-    # Collections
-
-    def enabled
-      where(enabled: true)
-    end
-
-    def ordered_for_reader
-      order(Sequel.desc(:unread_items_count), :title)
-    end
-
-    def ordered_for_channels_list
-      order(Sequel.desc(:enabled), Sequel.desc(:unread_items_count), :title)
-    end
-  end
+  #########################
+  # Public instance methods
+  #########################
 
   def mark_as_read
     items_dataset.mark_as_read

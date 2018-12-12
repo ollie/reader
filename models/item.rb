@@ -1,4 +1,3 @@
-# TODO: Test all error messages nad translate them.
 class Item < Sequel::Model
   #########
   # Plugins
@@ -15,6 +14,16 @@ class Item < Sequel::Model
   ##############
 
   many_to_one :channel
+
+  #################
+  # Dataset methods
+  #################
+
+  dataset_module do
+    def mark_as_read
+      update(read: true)
+    end
+  end
 
   #############
   # Validations
@@ -36,6 +45,10 @@ class Item < Sequel::Model
 
     validates_unique [:channel_id, :guid]
   end
+
+  #########################
+  # Public instance methods
+  #########################
 
   def sanitized_description
     description
@@ -64,11 +77,5 @@ class Item < Sequel::Model
 
   def mark_as_unread
     update(read: false)
-  end
-
-  dataset_module do
-    def mark_as_read
-      update(read: true)
-    end
   end
 end
