@@ -124,6 +124,7 @@ DEPENDENCIES
   pry-byebug
   pry-doc
   puma
+  rake
   rubocop
   sequel
   sequel_pg
