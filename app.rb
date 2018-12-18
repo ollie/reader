@@ -1,29 +1,16 @@
 class App < Sinatra::Base
-  set :slim, layout: :'layouts/application',
-             pretty: true
-  enable :sessions
-  register Sinatra::Flash
-
   configure do
-    config = YAML.safe_load(File.read("#{settings.root}/config/secrets.yml"))
-    config = config.fetch(Settings.environment)
-
-    set :login_encrypted_username, config.fetch('login_encrypted_username')
-    set :login_encrypted_password, config.fetch('login_encrypted_password')
-
     Settings.database
     Settings.setup_i18n
     Settings.load_files('lib/**')
     Settings.load_files('models/**')
   end
 
-  use Rack::Auth::Basic, 'Whee' do |username, password|
-    encrypted_username = Digest::SHA256.hexdigest(username)
-    encrypted_password = Digest::SHA256.hexdigest(password)
-
-    encrypted_username == settings.login_encrypted_username &&
-      encrypted_password == settings.login_encrypted_password
-  end if Settings.production?
+  set :slim, layout: :'layouts/application',
+             pretty: true
+  set :sessions, expire_after: 31.days
+  set :session_secret, Settings.secrets.session_secret
+  register Sinatra::Flash
 
   def self.Route(hash)
     route_name = hash.keys.first
@@ -91,6 +78,41 @@ class App < Sinatra::Base
         item_url: api_item_path(item.id),
         title:    item.title,
         read:     item.read
+      }
+    end
+  end
+
+  #######
+  # Hooks
+  #######
+
+  before do
+    pass if request.path == new_session_path
+    pass if Login.valid?(session[:encrypted_username], session[:encrypted_password])
+
+    redirect new_session_path
+  end
+
+  ##########
+  # Sessions
+  ##########
+
+  get Route(new_session: '/sessions/new') do
+    slim :'sessions/new', layout: :'layouts/sessions'
+  end
+
+  post '/sessions/new' do
+    encrypted_username = Login.encrypt_username(params[:username])
+    encrypted_password = Login.encrypt_password(params[:password])
+
+    if Login.valid?(encrypted_username, encrypted_password)
+      session[:encrypted_username] = encrypted_username
+      session[:encrypted_password] = encrypted_password
+
+      redirect items_path
+    else
+      slim :'sessions/new', layout: :'layouts/sessions', locals: {
+        login_failed: true
       }
     end
   end

@@ -52,6 +52,20 @@ module Settings
     I18n.default_locale = :cs
   end
 
+  def secrets
+    @secrets ||= begin
+      config = YAML.safe_load(root.join('config/secrets.yml').read).fetch(environment)
+
+      Object.new.tap do |object|
+        config.each do |key, value|
+          object.define_singleton_method(key) do
+            value
+          end
+        end
+      end
+    end
+  end
+
   private
 
   def pool_size

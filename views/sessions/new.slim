@@ -1,0 +1,21 @@
+form action=new_session_path method="post"
+  span.d-block.form-group
+    input.form-control.form-control-lg>(
+      type="text"
+      name="username"
+      placeholder="Jméno"
+      value=params[:username]
+      autofocus=('autofocus' unless params[:username].present?)
+      class=('is-invalid' if defined?(login_failed) && login_failed)
+    )
+  span.d-block.form-group
+    input.form-control.form-control-lg>(
+      type="password"
+      name="password"
+      placeholder="Heslo"
+      autofocus=('autofocus' if params[:username].present?)
+      class=('is-invalid' if defined?(login_failed) && login_failed)
+    )
+  span.d-block.form-group
+    button.btn.btn-primary.btn-lg.btn-block type="submit"
+      | Přihlásit
