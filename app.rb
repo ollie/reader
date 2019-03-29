@@ -10,81 +10,11 @@ class App < Sinatra::Base
              pretty: true
   set :sessions, expire_after: 31.days
   set :session_secret, Settings.secrets.session_secret
+
+  register Sinatra::Routing
+  helpers Sinatra::CommonHelpers
+  helpers Sinatra::AppHelpers
   register Sinatra::Flash
-
-  def self.Route(hash)
-    route_name = hash.keys.first
-    route_path = hash[route_name]
-
-    helpers do
-      define_method("#{route_name}_path") do |id = nil|
-        if route_path =~ /:id/
-          raise ArgumentError, "Missing :id parameter for route #{route_path}" unless id
-          route_path.gsub(':id', id.to_s)
-        else
-          route_path
-        end
-      end
-    end
-
-    route_path
-  end
-
-  helpers do
-    def partial_slim(template, locals = {})
-      slim(template.to_sym, layout: false, locals: locals)
-    end
-
-    def title(text = nil, head: false)
-      return @title = text if text
-      return [@title, t('title')].compact.join(' – ') if head
-
-      @title
-    end
-
-    def icon(filename)
-      @@icon_cache ||= {}
-      @@icon_cache[filename] ||= begin
-        svg = Settings.root.join('public/svg/octicons', "#{filename}.svg").read
-        %(<span class="octicon">#{svg}</span>)
-      end
-    end
-
-    def t(key, options = nil)
-      I18n.t(key, options)
-    end
-
-    def l(key, options = nil)
-      if options
-        I18n.l(key, **options)
-      else
-        I18n.l(key)
-      end
-    end
-
-    def json(data)
-      MultiJson.dump(data, pretty: !Settings.production?)
-    end
-
-    def mustache(view_path, locals = {})
-      template = read_mustache_template(view_path)
-      Mustache.render(template, locals)
-    end
-
-    def read_mustache_template(view_path)
-      @mustache_cache ||= {}
-      @mustache_cache[view_path] ||= File.read("#{settings.views}/#{view_path}.mustache")
-    end
-
-    def item_data_for_mustache(item, index)
-      {
-        active:   index.zero?,
-        item_url: api_item_path(item.id),
-        title:    item.title,
-        read:     item.read
-      }
-    end
-  end
 
   #######
   # Hooks
