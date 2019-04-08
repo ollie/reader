@@ -12,10 +12,10 @@ html lang="cs"
     script src="/js-vendor/bootstrap-4.3.1.bundle.min.js"
     script src="/js-vendor/hogan-3.0.2.min.js"
     - if Settings.production?
-      script src="/js/reader.min.js"
+      script src="/js/reader.js"
     - else
       script src="/coffee/reader.coffee" type="text/coffeescript"
-      script src="/compilers/coffeescript-2.3.2.min.js"
+      script src="/compilers/coffeescript-2.4.1.min.js"
   body
     .container-fluid
       == partial_slim 'layouts/_menu'

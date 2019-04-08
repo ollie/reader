@@ -10,10 +10,10 @@ html lang="cs"
     script src="/js-vendor/jquery-3.3.1.min.js"
     script src="/js-vendor/bootstrap-4.3.1.bundle.min.js"
     - if Settings.production?
-      script src="/js/app.min.js"
+      script src="/js/app.js"
     - else
       script src="/coffee/app.coffee" type="text/coffeescript"
-      script src="/compilers/coffeescript-2.3.2.min.js"
+      script src="/compilers/coffeescript-2.4.1.min.js"
   body
     .container.pt-3.pb-5
       == partial_slim 'layouts/_menu'
