@@ -39,7 +39,7 @@ GEM
     net-scp (2.0.0)
       net-ssh (>= 2.6.5, < 6.0.0)
     net-ssh (5.2.0)
-    oj (3.7.11)
+    oj (3.7.12)
     ox (2.10.0)
     parallel (1.17.0)
     parser (2.6.2.1)
