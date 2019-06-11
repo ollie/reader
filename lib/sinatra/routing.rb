@@ -1,6 +1,10 @@
 module Sinatra
   module Routing
     module Helpers
+      def path_with_qs(hash)
+        url(nil, false) + self.qs(hash)
+      end
+
       def qs(hash)
         params = self.params.except('captures', 'splat', 'id')
         params.merge!(hash.stringify_keys)
