@@ -2,8 +2,6 @@ class App < Sinatra::Base
   configure do
     Settings.database
     Settings.setup_i18n
-    Settings.load_files('lib/**')
-    Settings.load_files('models/**')
   end
 
   set :slim, layout: :'layouts/application',
@@ -21,6 +19,8 @@ class App < Sinatra::Base
   #######
 
   before do
+    Settings.autoloader.reload if Settings.development?
+
     pass if request.path == new_session_path
     pass if Login.valid?(session[:encrypted_username], session[:encrypted_password])
 
@@ -81,7 +81,7 @@ class App < Sinatra::Base
   end
 
   get Route(api_sync_channels: '/api/channels/sync') do
-    UpdateChannels.perform(Channel.all)
+    Service::UpdateChannels.perform(Channel.all)
     redirect items_path
   end
 
@@ -129,8 +129,8 @@ class App < Sinatra::Base
     channel = Channel.with_pk!(params[:id])
 
     begin
-      UpdateChannel.perform(channel)
-    rescue UpdateChannel::Error
+      Service::UpdateChannel.perform(channel)
+    rescue Service::UpdateChannel::Error
       nil
     end
 
@@ -181,7 +181,7 @@ class App < Sinatra::Base
   end
 
   post Route(sync_channels: '/channels/sync') do
-    UpdateChannels.perform(Channel.all)
+    Service::UpdateChannels.perform(Channel.all)
     flash[:success] = t('channels_synced')
     redirect channels_path
   end
@@ -207,11 +207,11 @@ class App < Sinatra::Base
       channel.errors.clear
 
       begin
-        ReadChannelInfo.perform(channel)
+        Service::ReadChannelInfo.perform(channel)
         slim :'channels/confirm', locals: {
           channel: channel
         }
-      rescue ReadChannelInfo::Error => e
+      rescue Service::ReadChannelInfo::Error => e
         flash.now[:error] = e.message
         slim :'channels/new', locals: {
           channel: channel
@@ -228,8 +228,8 @@ class App < Sinatra::Base
       channel.save
 
       begin
-        UpdateChannel.perform(channel)
-      rescue UpdateChannel::Error => e
+        Service::UpdateChannel.perform(channel)
+      rescue Service::UpdateChannel::Error => e
         flash[:error] = e.message
       end
 
@@ -267,9 +267,9 @@ class App < Sinatra::Base
     channel = Channel.with_pk!(params[:id])
 
     begin
-      UpdateChannel.perform(channel)
+      Service::UpdateChannel.perform(channel)
       flash[:success] = t('channel_synced')
-    rescue UpdateChannel::Error => e
+    rescue Service::UpdateChannel::Error => e
       flash[:error] = e.message
     end
 

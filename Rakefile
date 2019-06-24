@@ -8,8 +8,7 @@ end
 
 task environment: :settings do
   Settings.setup_i18n
-  Settings.load_files('lib/**')
-  Settings.load_files('models')
+  Settings.autoloader
 end
 
 Dir['tasks/**/*.rake'].each { |task| import task }

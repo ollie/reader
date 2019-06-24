@@ -1,4 +1,4 @@
-class UpdateChannel
+class Service::UpdateChannel
   class Error < StandardError; end
 
   REQUEST_OPTS = {

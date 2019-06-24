@@ -15,6 +15,7 @@ gem 'sequel_pg', require: 'sequel'
 gem 'sequel_postgresql_triggers'
 gem 'typhoeus'
 gem 'yarss'
+gem 'zeitwerk'
 
 # Modes
 

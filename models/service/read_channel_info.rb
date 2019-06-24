@@ -1,4 +1,4 @@
-class ReadChannelInfo
+class Service::ReadChannelInfo
   class Error < StandardError; end
 
   REQUEST_OPTS = {

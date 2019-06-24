@@ -24,6 +24,19 @@ module Settings
     Dir[root.join(path, '*.rb')].each { |file| require file }
   end
 
+  def autoloader
+    @autoloader ||= begin
+      load_files('lib/ext/**')
+      loader = Zeitwerk::Loader.new
+      loader.push_dir(root)
+      loader.push_dir(root.join('lib'))
+      loader.push_dir(root.join('models'))
+      loader.enable_reloading if development?
+      loader.setup
+      loader
+    end
+  end
+
   def database
     @database ||= begin
       # Convert all times to UTC while saving and loading.

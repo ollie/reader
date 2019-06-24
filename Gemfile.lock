@@ -99,6 +99,7 @@ GEM
     yard (0.9.19)
     yarss (0.0.6)
       multi_xml (~> 0.5)
+    zeitwerk (2.1.6)
 
 PLATFORMS
   ruby
@@ -131,6 +132,7 @@ DEPENDENCIES
   slim
   typhoeus
   yarss
+  zeitwerk
 
 BUNDLED WITH
    1.17.3

@@ -1,4 +1,4 @@
-class UpdateChannels
+class Service::UpdateChannels
   attr_accessor :channels
 
   def self.perform(channels)
