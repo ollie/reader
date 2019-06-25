@@ -1,33 +1,35 @@
-class Service::UpdateChannels
-  attr_accessor :channels
+module Service
+  class UpdateChannels
+    attr_accessor :channels
 
-  def self.perform(channels)
-    new(channels).perform
-  end
-
-  def initialize(channels)
-    self.channels = channels
-  end
-
-  def perform
-    pool = Concurrent::ThreadPoolExecutor.new(
-      min_threads: 2,
-      max_threads: 5
-    )
-
-    channels.each do |channel|
-      pool.post { update_channel(channel) }
+    def self.perform(channels)
+      new(channels).perform
     end
 
-    pool.shutdown
-    pool.wait_for_termination
-  end
+    def initialize(channels)
+      self.channels = channels
+    end
 
-  private
+    def perform
+      pool = Concurrent::ThreadPoolExecutor.new(
+        min_threads: 2,
+        max_threads: 5
+      )
 
-  def update_channel(channel)
-    UpdateChannel.perform(channel)
-  rescue UpdateChannel::Error
-    nil # That's ok.
+      channels.each do |channel|
+        pool.post { update_channel(channel) }
+      end
+
+      pool.shutdown
+      pool.wait_for_termination
+    end
+
+    private
+
+    def update_channel(channel)
+      UpdateChannel.perform(channel)
+    rescue UpdateChannel::Error
+      nil # That's ok.
+    end
   end
 end
