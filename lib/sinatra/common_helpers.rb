@@ -4,6 +4,14 @@ module Sinatra
       slim(template.to_sym, layout: false, locals: locals)
     end
 
+    def version_asset(path)
+      file_path = Settings.root.join("public#{path}")
+
+      return path unless file_path.file?
+
+      "#{path}?v=#{file_path.mtime.to_i}"
+    end
+
     def title(text = nil, head: false)
       return @title = text if text
       return [@title, t('title')].compact.join(' – ') if head

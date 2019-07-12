@@ -4,18 +4,18 @@ html lang="cs"
     meta charset="utf-8"
     meta name="viewport" content="width=device-width, initial-scale=1"
     title = title(nil, head: true)
-    link rel="icon" href="/images/favicon-64x64.png" sizes="32x32" type="image/png"
-    link rel="stylesheet" href="/css-vendor/bootstrap-4.3.1.min.css"
-    link rel="stylesheet" href="/css-vendor/octicons.css"
-    link rel="stylesheet" href="/css/reader.css"
-    script src="/js-vendor/jquery-3.3.1.min.js"
-    script src="/js-vendor/bootstrap-4.3.1.bundle.min.js"
-    script src="/js-vendor/hogan-3.0.2.min.js"
+    link rel="icon" href=version_asset('/images/favicon-64x64.png') sizes="32x32" type="image/png"
+    link rel="stylesheet" href=version_asset('/css-vendor/bootstrap-4.3.1.min.css')
+    link rel="stylesheet" href=version_asset('/css-vendor/octicons.css')
+    link rel="stylesheet" href=version_asset('/css/reader.css')
+    script src=version_asset('/js-vendor/jquery-3.3.1.min.js')
+    script src=version_asset('/js-vendor/bootstrap-4.3.1.bundle.min.js')
+    script src=version_asset('/js-vendor/hogan-3.0.2.min.js')
     - if Settings.production?
-      script src="/js/reader.js"
+      script src=version_asset('/js/reader.js')
     - else
-      script src="/coffee/reader.coffee" type="text/coffeescript"
-      script src="/compilers/coffeescript-2.4.1.min.js"
+      script src=version_asset('/coffee/reader.coffee') type="text/coffeescript"
+      script src=version_asset('/compilers/coffeescript-2.4.1.min.js')
   body
     .container-fluid
       == partial_slim 'layouts/_menu'
