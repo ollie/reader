@@ -26,11 +26,14 @@ module Settings
 
   def autoloader
     @autoloader ||= begin
-      load_files('lib/ext/**')
+      load_files('app/lib/ext/**')
       loader = Zeitwerk::Loader.new
-      loader.push_dir(root)
-      loader.push_dir(root.join('lib'))
-      loader.push_dir(root.join('models'))
+      # loader.log!
+      loader.push_dir(root.join('app'))
+      loader.ignore(root.join('app/views'))
+      loader.push_dir(root.join('app/lib'))
+      loader.ignore(root.join('app/lib/ext'))
+      loader.push_dir(root.join('app/models'))
       loader.enable_reloading if development?
       loader.setup
       loader

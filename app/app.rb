@@ -4,6 +4,7 @@ class App < Sinatra::Base
     Settings.setup_i18n
   end
 
+  set :public_folder, Settings.root.join('public')
   set :slim, layout: :'layouts/application',
              pretty: true
   set :sessions, expire_after: 31.days
