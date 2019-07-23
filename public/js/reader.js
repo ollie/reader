@@ -13,13 +13,13 @@
       this._handleMarkAsReadClick = this._handleMarkAsReadClick.bind(this);
       this._handleMarkAsUnreadClick = this._handleMarkAsUnreadClick.bind(this);
       this.htmlBody = $('html, body');
+      this.errorMessage = $('#error-message');
       this.scrollLink = $('#scroll-link');
       this.anchor = $('#anchor');
       this.channelsWrapper = $('#channels-wrapper');
       this.itemsWrapper = $('#items-wrapper');
       this.markChannelsAsReadLink = $('#mark-channels-as-read-link');
       this.markChannelAsReadLink = $('#mark-channel-as-read-link');
-      this.syncChannelLink = $('#sync-channel-link');
       this.itemTitle = $('#item-title');
       this.itemInfo = $('#item-info');
       this.itemContent = $('#item-content');
@@ -67,7 +67,13 @@
       this.itemMarkAsUnread.removeClass('d-none');
       return $.ajax({
         url: $link.attr('href'),
-        method: 'patch'
+        method: 'patch',
+        beforeSend: () => {
+          return this.errorMessage.addClass('d-none');
+        },
+        error: () => {
+          return this.errorMessage.removeClass('d-none');
+        }
       });
     }
 
@@ -89,7 +95,13 @@
       this.itemMarkAsUnread.removeClass('d-none');
       return $.ajax({
         url: $link.attr('href'),
-        method: 'patch'
+        method: 'patch',
+        beforeSend: () => {
+          return this.errorMessage.addClass('d-none');
+        },
+        error: () => {
+          return this.errorMessage.removeClass('d-none');
+        }
       });
     }
 
@@ -101,6 +113,9 @@
       return $.ajax({
         url: $link.attr('href'),
         dataType: 'json',
+        beforeSend: () => {
+          return this.errorMessage.addClass('d-none');
+        },
         success: (data) => {
           var itemData;
           this.activeChannel.removeClass('js-active');
@@ -108,7 +123,6 @@
           $li.addClass('js-active');
           $li.find('a').addClass('bg-lighter');
           this.markChannelAsReadLink.attr('href', data.mark_channel_as_read_url);
-          this.syncChannelLink.attr('href', data.sync_channel_url);
           this._renderItems(data.items);
           itemData = data.item;
           this.itemTitle.text(itemData.title).attr('href', itemData.link);
@@ -128,6 +142,9 @@
           }
           this.activeChannel = $li;
           return this.activeItem = this.itemsWrapper.find('.js-active');
+        },
+        error: () => {
+          return this.errorMessage.removeClass('d-none');
         }
       });
     }
@@ -140,6 +157,9 @@
       return $.ajax({
         url: $link.attr('href'),
         dataType: 'json',
+        beforeSend: () => {
+          return this.errorMessage.addClass('d-none');
+        },
         success: (data) => {
           this.activeItem.removeClass('js-active');
           this.activeItem.find('a').removeClass('bg-lighter');
@@ -159,6 +179,9 @@
           this.itemContent.html(data.description);
           this._scrollToTop();
           return this.activeItem = $li;
+        },
+        error: () => {
+          return this.errorMessage.removeClass('d-none');
         }
       });
     }
@@ -170,6 +193,9 @@
       return $.ajax({
         url: $link.attr('href'),
         method: 'patch',
+        beforeSend: () => {
+          return this.errorMessage.addClass('d-none');
+        },
         success: (data) => {
           var $counter, count;
           this.itemMarkAsRead.addClass('d-none');
@@ -182,6 +208,9 @@
           }
           this.activeItem.removeClass('font-weight-bold');
           return this.activeItem.find('a').removeClass('text-dark').addClass('text-secondary');
+        },
+        error: () => {
+          return this.errorMessage.removeClass('d-none');
         }
       });
     }
@@ -193,6 +222,9 @@
       return $.ajax({
         url: $link.attr('href'),
         method: 'patch',
+        beforeSend: () => {
+          return this.errorMessage.addClass('d-none');
+        },
         success: (data) => {
           var $counter, count;
           this.itemMarkAsUnread.addClass('d-none');
@@ -205,6 +237,9 @@
           }
           this.activeItem.addClass('font-weight-bold');
           return this.activeItem.find('a').removeClass('text-secondary').addClass('text-dark');
+        },
+        error: () => {
+          return this.errorMessage.removeClass('d-none');
         }
       });
     }

@@ -111,7 +111,6 @@ class App < Sinatra::Base
     }
 
     data = {
-      sync_channel_url: api_sync_channel_path(channel.id),
       mark_channel_as_read_url: api_mark_channel_as_read_path(channel.id),
       items: items_data,
       item: item_data
@@ -124,18 +123,6 @@ class App < Sinatra::Base
     channel = Channel.with_pk!(params[:id])
     channel.mark_as_read
     halt 204
-  end
-
-  get Route(api_sync_channel: '/api/channels/:id/sync') do
-    channel = Channel.with_pk!(params[:id])
-
-    begin
-      Service::UpdateChannel.perform(channel)
-    rescue Service::UpdateChannel::Error
-      nil
-    end
-
-    redirect items_path
   end
 
   get Route(api_item: '/api/items/:id.json') do

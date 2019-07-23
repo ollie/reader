@@ -21,4 +21,6 @@ html lang="cs"
       == partial_slim 'layouts/_menu'
       h1.mt-3.mb-3 = title
       == partial_slim 'layouts/_flash'
+      #error-message.d-none.mt-3.alert.alert-dismissible.fade.show class="alert-danger" role="alert"
+        | Jejda, chyba. :(
       == yield

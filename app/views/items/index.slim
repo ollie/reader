@@ -54,7 +54,7 @@
       a#mark-channels-as-read-link.w-100.btn.btn-outline-info.btn-sm.text-truncate> href=api_mark_channels_as_read_path
         == icon(:check)
         span.d-none.d-lg-inline.ml-1.align-middle<
-          | Přečteno
+          | Vše přečteno
       a.btn.btn-outline-info.w-100.btn-sm.text-truncate href=api_sync_channels_path
         == icon(:sync)
         span.d-none.d-lg-inline.ml-1.align-middle<
@@ -75,11 +75,7 @@
       a#mark-channel-as-read-link.w-100.btn.btn-outline-info.btn-sm.text-truncate> href=api_mark_channel_as_read_path(item.channel_id)
         == icon(:check)
         span.d-none.d-lg-inline.ml-1.align-middle<
-          | Přečteno
-      a#sync-channel-link.w-100.btn.btn-outline-info.btn-sm.text-truncate href=api_sync_channel_path(item.channel_id)
-        == icon(:sync)
-        span.d-none.d-lg-inline.ml-1.align-middle<
-          | Načíst
+          | Vše přečteno
     ul.list-unstyled#items-wrapper
       - items.each_with_index do |item, index|
         == mustache('items/_item', item_data_for_mustache(item, index))

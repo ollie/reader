@@ -1,13 +1,13 @@
 class App
   constructor: ->
     @htmlBody               = $('html, body')
+    @errorMessage           = $('#error-message')
     @scrollLink             = $('#scroll-link')
     @anchor                 = $('#anchor')
     @channelsWrapper        = $('#channels-wrapper')
     @itemsWrapper           = $('#items-wrapper')
     @markChannelsAsReadLink = $('#mark-channels-as-read-link')
     @markChannelAsReadLink  = $('#mark-channel-as-read-link')
-    @syncChannelLink        = $('#sync-channel-link')
     @itemTitle              = $('#item-title')
     @itemInfo               = $('#item-info')
     @itemContent            = $('#item-content')
@@ -53,6 +53,10 @@ class App
     $.ajax
       url: $link.attr('href')
       method: 'patch'
+      beforeSend: =>
+        @errorMessage.addClass('d-none')
+      error: =>
+        @errorMessage.removeClass('d-none')
 
   _handleMarkChannelAsReadClick: (e) =>
     e.preventDefault()
@@ -73,6 +77,11 @@ class App
     $.ajax
       url: $link.attr('href')
       method: 'patch'
+      beforeSend: =>
+        @errorMessage.addClass('d-none')
+      error: =>
+        @errorMessage.removeClass('d-none')
+
 
   _handleChannelClick: (e) =>
     e.preventDefault()
@@ -82,6 +91,9 @@ class App
     $.ajax
       url: $link.attr('href')
       dataType: 'json'
+      beforeSend: =>
+        @errorMessage.addClass('d-none')
+
       success: (data) =>
         @activeChannel.removeClass('js-active')
         @activeChannel.find('a').removeClass('bg-lighter')
@@ -90,7 +102,6 @@ class App
         $li.find('a').addClass('bg-lighter')
 
         @markChannelAsReadLink.attr('href', data.mark_channel_as_read_url)
-        @syncChannelLink.attr('href', data.sync_channel_url)
 
         this._renderItems(data.items)
 
@@ -118,6 +129,9 @@ class App
         @activeChannel = $li
         @activeItem    = @itemsWrapper.find('.js-active')
 
+      error: =>
+        @errorMessage.removeClass('d-none')
+
   _handleItemClick: (e) =>
     e.preventDefault()
     $link = $(e.currentTarget)
@@ -126,6 +140,9 @@ class App
     $.ajax
       url: $link.attr('href')
       dataType: 'json'
+      beforeSend: =>
+        @errorMessage.addClass('d-none')
+
       success: (data) =>
         @activeItem.removeClass('js-active')
         @activeItem.find('a').removeClass('bg-lighter')
@@ -154,6 +171,9 @@ class App
 
         @activeItem = $li
 
+      error: =>
+        @errorMessage.removeClass('d-none')
+
   _handleMarkAsReadClick: (e) =>
     e.preventDefault()
     $link = $(e.currentTarget)
@@ -161,6 +181,9 @@ class App
     $.ajax
       url: $link.attr('href')
       method: 'patch'
+      beforeSend: =>
+        @errorMessage.addClass('d-none')
+
       success: (data) =>
         @itemMarkAsRead.addClass('d-none')
         @itemMarkAsUnread.removeClass('d-none')
@@ -173,6 +196,9 @@ class App
         @activeItem.removeClass('font-weight-bold')
         @activeItem.find('a').removeClass('text-dark').addClass('text-secondary')
 
+      error: =>
+        @errorMessage.removeClass('d-none')
+
   _handleMarkAsUnreadClick: (e) =>
     e.preventDefault()
     $link = $(e.currentTarget)
@@ -180,6 +206,9 @@ class App
     $.ajax
       url: $link.attr('href')
       method: 'patch'
+      beforeSend: =>
+        @errorMessage.addClass('d-none')
+
       success: (data) =>
         @itemMarkAsUnread.addClass('d-none')
         @itemMarkAsRead.removeClass('d-none')
@@ -191,6 +220,9 @@ class App
 
         @activeItem.addClass('font-weight-bold')
         @activeItem.find('a').removeClass('text-secondary').addClass('text-dark')
+
+      error: =>
+        @errorMessage.removeClass('d-none')
 
   _renderItems: (items) ->
     html = ''
