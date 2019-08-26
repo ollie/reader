@@ -1,7 +1,7 @@
 - unless flash.empty?
   - flash.each do |severity, message|
     - severity = :danger if severity == :error
-    div.mt-3.alert.alert-dismissible.fade.show class="alert-#{severity}" role="alert"
+    .mt-3.alert.alert-dismissible.fade.show class="alert-#{severity}" role="alert"
       = message
       button.close type="button" data-dismiss="alert" aria-label="Close"
         span aria-hidden="true" &times;
