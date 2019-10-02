@@ -57,7 +57,7 @@ module Settings
 
   def database_url
     @database_url ||= begin
-      config = YAML.load(root.join('config/database.yml').read).fetch(environment)
+      config = YAML.safe_load(root.join('config/database.yml').read).fetch(environment)
       "postgres://#{config['username']}:#{config['password']}@localhost/#{config['database']}"
     end
   end

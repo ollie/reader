@@ -32,18 +32,18 @@ class Item < Sequel::Model
   def validate
     super
 
-    validates_presence [
-      :title,
-      :channel_id,
-      :link,
-      :guid
+    validates_presence %i[
+      title
+      channel_id
+      link
+      guid
     ]
 
     validates_max_length 255, :title
     validates_max_length 255, :author, allow_nil: true
     validates_max_length 255, :guid
 
-    validates_unique [:channel_id, :guid]
+    validates_unique %i[channel_id guid]
   end
 
   #########################

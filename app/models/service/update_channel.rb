@@ -69,7 +69,9 @@ module Service
         pub_date:    item.updated_at
       )
       item.validate
-      return if item.errors.on([:channel_id, :guid])
+
+      return if item.errors.on(%i[channel_id guid])
+
       item.save
     rescue Sequel::UniqueConstraintViolation
       nil # That's ok.

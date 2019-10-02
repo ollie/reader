@@ -101,19 +101,19 @@ class App < Sinatra::Base
     item = items.first
 
     item_data = {
-      title: item.title,
-      link: item.link,
-      info: item.info,
-      read: item.read,
-      mark_as_read_url: api_mark_item_as_read_path(item.id),
+      title:              item.title,
+      link:               item.link,
+      info:               item.info,
+      read:               item.read,
+      mark_as_read_url:   api_mark_item_as_read_path(item.id),
       mark_as_unread_url: api_mark_item_as_unread_path(item.id),
-      description: item.sanitized_description
+      description:        item.sanitized_description
     }
 
     data = {
       mark_channel_as_read_url: api_mark_channel_as_read_path(channel.id),
-      items: items_data,
-      item: item_data
+      items:                    items_data,
+      item:                     item_data
     }
 
     json data
@@ -128,13 +128,13 @@ class App < Sinatra::Base
   get Route(api_item: '/api/items/:id.json') do
     item = Item.with_pk!(params[:id])
     data = {
-      title: item.title,
-      link: item.link,
-      info: item.info,
-      read: item.read,
-      mark_as_read_url: api_mark_item_as_read_path(item.id),
+      title:              item.title,
+      link:               item.link,
+      info:               item.info,
+      read:               item.read,
+      mark_as_read_url:   api_mark_item_as_read_path(item.id),
       mark_as_unread_url: api_mark_item_as_unread_path(item.id),
-      description: item.sanitized_description
+      description:        item.sanitized_description
     }
 
     json data
@@ -184,7 +184,7 @@ class App < Sinatra::Base
 
   post Route(confirm_channel: '/channels/confirm') do
     channel = Channel.new
-    channel.set_fields(params[:channel], [:enabled, :feed_link])
+    channel.set_fields(params[:channel], %i[enabled feed_link])
     channel.validate
 
     if channel.errors.on(:feed_link)
@@ -210,7 +210,7 @@ class App < Sinatra::Base
 
   post '/channels/new' do
     channel = Channel.new
-    channel.set_fields(params[:channel], [:enabled, :title, :feed_link, :html_link])
+    channel.set_fields(params[:channel], %i[enabled title feed_link html_link])
 
     if channel.valid?
       channel.save
@@ -238,7 +238,7 @@ class App < Sinatra::Base
 
   post '/channels/:id/edit' do
     channel = Channel.with_pk!(params[:id])
-    channel.set_fields(params[:channel], [:enabled, :title, :feed_link, :html_link])
+    channel.set_fields(params[:channel], %i[enabled title feed_link html_link])
 
     if channel.valid?
       channel.save

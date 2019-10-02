@@ -34,11 +34,11 @@ Sequel.migration do
       DateTime :updated_at, null: false
 
       index :channel_id
-      index [:channel_id, :guid], unique: true
+      index %i[channel_id guid], unique: true
       index :read
     end
 
-    def pgt_unread_counter_cache(main_table, main_table_id_column, counter_column, counted_table, counted_table_id_column, counted_table_bool_column, opts={})
+    def pgt_unread_counter_cache(main_table, main_table_id_column, counter_column, counted_table, counted_table_id_column, counted_table_bool_column, opts = {})
       trigger_name = opts[:trigger_name] || "pgt_ucc_#{main_table}__#{main_table_id_column}__#{counter_column}__#{counted_table_id_column}"
       function_name = opts[:function_name] || "pgt_ucc_#{main_table}__#{main_table_id_column}__#{counter_column}__#{counted_table}__#{counted_table_id_column}"
 
@@ -48,7 +48,7 @@ Sequel.migration do
       count_column = quote_identifier(counter_column)
       bool_column = quote_identifier(counted_table_bool_column)
 
-      pgt_trigger(counted_table, trigger_name, function_name, [:insert, :update, :delete], <<-SQL)
+      pgt_trigger(counted_table, trigger_name, function_name, %i[insert update delete], <<-SQL)
       BEGIN
         IF (TG_OP = 'UPDATE' AND ((OLD.#{id_column} IS NULL AND NEW.#{id_column} IS NULL) OR (NEW.#{id_column} = OLD.#{id_column} AND NEW.#{bool_column} = true AND OLD.#{bool_column} = true))) THEN
           RETURN NEW;

@@ -40,10 +40,10 @@ class Channel < Sequel::Model
   def validate
     super
 
-    validates_presence [
-      :title,
-      :feed_link,
-      :html_link
+    validates_presence %i[
+      title
+      feed_link
+      html_link
     ]
 
     validates_max_length 255, :title

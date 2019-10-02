@@ -2,7 +2,7 @@ module Sinatra
   module Routing
     module Helpers
       def path_with_qs(hash)
-        url(nil, false) + self.qs(hash)
+        url(nil, false) + qs(hash)
       end
 
       def qs(hash)
@@ -26,6 +26,7 @@ module Sinatra
 
         params.each do |key, value|
           next if value.is_a?(Hash)
+
           serialized_params << "#{CGI.escape(key.to_s)}=#{CGI.escape(value.to_s)}"
         end
 
@@ -37,7 +38,7 @@ module Sinatra
       app.helpers Routing::Helpers
     end
 
-    def Route(hash)
+    def Route(hash) # rubocop:disable Naming/MethodName
       route_name = hash.keys.first
       route_path = hash[route_name]
 
@@ -48,7 +49,7 @@ module Sinatra
 
           path = route_path.dup
 
-          while id_key_match = path.match(/:([a-z]+_)?id/)
+          while id_key_match = path.match(/:([a-z]+_)?id/) # rubocop:disable Lint/AssignmentInCondition
             id_key   = id_key_match[0]
             id_value = ids.shift
 

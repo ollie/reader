@@ -20,7 +20,7 @@ module Sinatra
     end
 
     def icon(filename)
-      @@icon_cache ||= {}
+      @@icon_cache ||= {} # rubocop:disable Style/ClassVars
       @@icon_cache[filename] ||= begin
         svg = Settings.root.join('public/svg/octicons', "#{filename}.svg").read
         %(<span class="octicon">#{svg}</span>)
