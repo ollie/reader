@@ -2,8 +2,12 @@ AllCops:
   TargetRubyVersion: 2.6
 
 Layout/AlignHash:
-  EnforcedColonStyle: table
-  EnforcedHashRocketStyle: table
+  EnforcedColonStyle:
+    - key
+    - table
+  EnforcedHashRocketStyle:
+    - key
+    - table
 
 Style/ClassAndModuleChildren:
   Enabled: false
