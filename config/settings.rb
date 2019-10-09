@@ -36,6 +36,13 @@ module Settings
       loader.push_dir(root.join('app/models'))
       loader.enable_reloading if development?
       loader.setup
+
+      if development?
+        require 'listen'
+        listener = Listen.to('app', 'config', only: /\.rb\z/) { loader.reload }
+        listener.start
+      end
+
       loader
     end
   end

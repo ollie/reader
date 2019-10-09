@@ -20,8 +20,6 @@ class App < Sinatra::Base
   #######
 
   before do
-    Settings.autoloader.reload if Settings.development?
-
     pass if request.path == new_session_path
     pass if Login.valid?(session[:encrypted_username], session[:encrypted_password])
 
