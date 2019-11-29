@@ -9,11 +9,6 @@ html.h-100 lang="cs"
     link rel="stylesheet" href=version_asset('/css-vendor/octicons.css')
     script src=version_asset('/js-vendor/jquery-3.3.1.min.js')
     script src=version_asset('/js-vendor/bootstrap-4.3.1.bundle.min.js')
-    - if Settings.production?
-      script src=version_asset('/js/app.js')
-    - else
-      script src=version_asset('/coffee/app.coffee') type="text/coffeescript"
-      script src=version_asset('/compilers/coffeescript-2.4.1.min.js')
   body.h-100
     .container-fluid.h-100.py-3
       .d-flex.justify-content-center.align-items-center.h-100

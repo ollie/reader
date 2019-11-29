@@ -13,7 +13,7 @@ table.table
       form action=sync_channels_path method="post"
         button.btn.btn-outline-primary.btn-sm type="submit"
           | Zaktualizovat vše
-  tbody
+  tbody data-js-component="Tooltip"
     - channels.each do |channel|
       tr
         th.pl-0.align-middle scope="row"
@@ -60,6 +60,7 @@ table.table
           form.d-inline-block(
             action=delete_channel_path(channel.id)
             method="post"
+            data-js-component="Confirm"
             data-confirm="Opravdu si přejete smazat zdroj #{channel.title}?"
           )
             button.btn.btn-outline-danger.btn-sm type="submit"

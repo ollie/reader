@@ -10,9 +10,15 @@ html lang="cs"
     script src=version_asset('/js-vendor/jquery-3.3.1.min.js')
     script src=version_asset('/js-vendor/bootstrap-4.3.1.bundle.min.js')
     - if Settings.production?
+      script src=version_asset('/js/confirm.js')
+      script src=version_asset('/js/tooltip.js')
+
       script src=version_asset('/js/app.js')
     - else
-      script src=version_asset('/coffee/app.coffee') type="text/coffeescript"
+      script type="text/coffeescript" src=version_asset('/coffee/confirm.coffee')
+      script type="text/coffeescript" src=version_asset('/coffee/tooltip.coffee')
+
+      script type="text/coffeescript" src=version_asset('/coffee/app.coffee')
       script src=version_asset('/compilers/coffeescript-2.4.1.min.js')
   body
     .container.pt-3.pb-5

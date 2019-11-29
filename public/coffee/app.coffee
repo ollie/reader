@@ -1,24 +1,14 @@
-class Confirm
-  constructor: ->
-    $items = $('[data-confirm]')
-    $items.on('click', this._handleClick)
+initComponents = ->
+  componentsMap = {}
 
-  _handleClick: (e) =>
-    $item   = $(e.currentTarget)
-    message = $item.data('confirm')
+  for item in $('[data-js-component]')
+    $item = $(item)
+    componentsMap[$item.data('js-component')] = true
 
-    if message && !confirm(message)
-      e.preventDefault()
-
-
-
-class Tooltip
-  constructor: ->
-    $items = $('[data-toggle="tooltip"]')
-    $items.tooltip()
-
-
+  for componentName, _ of componentsMap
+    component = window[componentName]
+    console.log("Initializing #{componentName}")
+    new component
 
 $ ->
-  new Confirm
-  new Tooltip
+  initComponents()
