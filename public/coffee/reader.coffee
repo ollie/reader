@@ -19,16 +19,16 @@ class App
     @activeChannel = @channelsWrapper.find('.js-active')
     @activeItem    = @itemsWrapper.find('.js-active')
 
-    @scrollLink.on('click',                  this._handleScrollLinkClick)
-    @markChannelsAsReadLink.on('click',      this._handleMarkChannelsAsReadClick)
-    @markChannelAsReadLink.on('click',       this._handleMarkChannelAsReadClick)
-    @channelsWrapper.on('click', '.js-link', this._handleChannelClick)
-    @itemsWrapper.on('click',    '.js-link', this._handleItemClick)
-    @itemMarkAsRead.on('click',              this._handleMarkAsReadClick)
-    @itemMarkAsUnread.on('click',            this._handleMarkAsUnreadClick)
+    @scrollLink.on('click',                  @_handleScrollLinkClick)
+    @markChannelsAsReadLink.on('click',      @_handleMarkChannelsAsReadClick)
+    @markChannelAsReadLink.on('click',       @_handleMarkChannelAsReadClick)
+    @channelsWrapper.on('click', '.js-link', @_handleChannelClick)
+    @itemsWrapper.on('click',    '.js-link', @_handleItemClick)
+    @itemMarkAsRead.on('click',              @_handleMarkAsReadClick)
+    @itemMarkAsUnread.on('click',            @_handleMarkAsUnreadClick)
 
   _handleScrollLinkClick: =>
-    this._scrollToAnchor()
+    @_scrollToAnchor()
 
   _handleMarkChannelsAsReadClick: (e) =>
     e.preventDefault()
@@ -103,7 +103,7 @@ class App
 
         @markChannelAsReadLink.attr('href', data.mark_channel_as_read_url)
 
-        this._renderItems(data.items)
+        @_renderItems(data.items)
 
         itemData = data.item
 
@@ -124,7 +124,7 @@ class App
           @itemMarkAsRead.removeClass('d-none')
 
         @itemContent.html(itemData.description)
-        this._scrollToTop() unless itemData.read
+        @_scrollToTop() unless itemData.read
 
         @activeChannel = $li
         @activeItem    = @itemsWrapper.find('.js-active')
@@ -167,7 +167,7 @@ class App
           @itemMarkAsRead.removeClass('d-none')
 
         @itemContent.html(data.description)
-        this._scrollToTop()
+        @_scrollToTop()
 
         @activeItem = $li
 
@@ -239,7 +239,7 @@ class App
     @itemsWrapper.html(html)
 
   _scrollToTop: ->
-    return unless this._isSmallDevice()
+    return unless @_isSmallDevice()
     @htmlBody.animate(scrollTop: 0, 250)
 
   _scrollToAnchor: ->

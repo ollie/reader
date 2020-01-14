@@ -1,7 +1,7 @@
 class @Confirm
   constructor: ->
     $items = $('[data-confirm]')
-    $items.on('click', this._handleClick)
+    $items.on('click', @_handleClick)
 
   _handleClick: (e) =>
     $item   = $(e.currentTarget)
