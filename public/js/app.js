@@ -3,13 +3,19 @@
   var initComponents;
 
   initComponents = function() {
-    var $item, _, component, componentName, componentsMap, i, item, len, ref, results;
+    var $item, _, component, componentName, componentNames, componentsMap, i, item, j, len, len1, ref, results;
     componentsMap = {};
     ref = $('[data-js-component]');
     for (i = 0, len = ref.length; i < len; i++) {
       item = ref[i];
       $item = $(item);
-      componentsMap[$item.data('js-component')] = true;
+      componentNames = $item.data('js-component').split(',').map(function(name) {
+        return name.trim();
+      });
+      for (j = 0, len1 = componentNames.length; j < len1; j++) {
+        componentName = componentNames[j];
+        componentsMap[componentName] = true;
+      }
     }
     results = [];
     for (componentName in componentsMap) {

@@ -2,8 +2,11 @@ initComponents = ->
   componentsMap = {}
 
   for item in $('[data-js-component]')
-    $item = $(item)
-    componentsMap[$item.data('js-component')] = true
+    $item          = $(item)
+    componentNames = $item.data('js-component').split(',').map((name) -> name.trim())
+
+    for componentName in componentNames
+      componentsMap[componentName] = true
 
   for componentName, _ of componentsMap
     component = window[componentName]
