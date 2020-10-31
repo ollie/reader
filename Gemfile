@@ -32,6 +32,8 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-passenger', require: false
   gem 'capistrano-rbenv', require: false
+  gem 'ed25519', require: false      # Required for Capistrano to work with ed25519 key.
+  gem 'bcrypt_pbkdf', require: false # Required for Capistrano to work with ed25519 key.
   gem 'listen', require: false # assets
   gem 'pry-byebug', require: false
   gem 'pry-doc', require: false
