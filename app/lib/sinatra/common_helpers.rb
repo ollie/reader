@@ -30,7 +30,11 @@ module Sinatra
     end
 
     def t(key, options = nil)
-      I18n.t(key, options)
+      if options
+        I18n.t(key, **options)
+      else
+        I18n.t(key)
+      end
     end
 
     def l(key, options = nil)
