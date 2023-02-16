@@ -57,6 +57,8 @@ class App < Sinatra::Base
   get Route(items: '/') do
     if Channel.count.zero?
       redirect new_channel_path
+    elsif Item.count.zero?
+      redirect channels_path
     else
       channels = Channel.enabled.ordered_for_reader
       items    = channels.first.items_dataset.limit(30)
