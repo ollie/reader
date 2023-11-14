@@ -64,7 +64,7 @@ module Settings
 
   def database_url
     @database_url ||= begin
-      config = YAML.safe_load(root.join('config/database.yml').read).fetch(environment)
+      config = YAML.safe_load(root.join('config/database.yml').read, permitted_classes: [Symbol, Date]).fetch(environment)
       "postgres://#{config['username']}:#{config['password']}@localhost/#{config['database']}"
     end
   end
@@ -77,7 +77,7 @@ module Settings
 
   def secrets
     @secrets ||= begin
-      config = YAML.safe_load(root.join('config/secrets.yml').read).fetch(environment)
+      config = YAML.safe_load(root.join('config/secrets.yml').read, permitted_classes: [Symbol, Date]).fetch(environment)
 
       Object.new.tap do |object|
         config.each do |key, value|
