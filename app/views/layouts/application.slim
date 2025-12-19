@@ -9,17 +9,11 @@ html lang="cs"
     link rel="stylesheet" href=version_asset('/css-vendor/octicons.css')
     script src=version_asset('/js-vendor/jquery-3.5.1.min.js')
     script src=version_asset('/js-vendor/bootstrap-4.5.3.bundle.min.js')
-    - if Settings.production?
-      script src=version_asset('/js/confirm.js')
-      script src=version_asset('/js/tooltip.js')
 
-      script src=version_asset('/js/app.js')
-    - else
-      script type="text/coffeescript" src=version_asset('/coffee/confirm.coffee')
-      script type="text/coffeescript" src=version_asset('/coffee/tooltip.coffee')
+    script src=version_asset('/js/confirm.js')
+    script src=version_asset('/js/tooltip.js')
 
-      script type="text/coffeescript" src=version_asset('/coffee/app.coffee')
-      script src=version_asset('/compilers/coffeescript-2.5.1.min.js')
+    script src=version_asset('/js/app.js')
   body
     .container.pt-3.pb-5
       == partial_slim 'layouts/_menu'
