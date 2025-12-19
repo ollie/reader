@@ -63,7 +63,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.6.2)
-    prism (1.6.0)
+    prism (1.7.0)
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -110,7 +110,7 @@ GEM
     ruby2_keywords (0.0.5)
     sequel (5.99.0)
       bigdecimal
-    sequel_pg (1.18.1)
+    sequel_pg (1.18.2)
       pg (>= 0.18.0, != 1.2.0)
       sequel (>= 4.38.0)
     sequel_postgresql_triggers (1.6.0)
