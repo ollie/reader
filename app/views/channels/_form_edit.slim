@@ -13,7 +13,6 @@ form action=url method="post"
         id="channel-title"
         placeholder="Název"
         value=channel.title
-        autofocus="autofocus"
         class=('is-invalid' if channel.errors.on(:title))
       )
       - if channel.errors.on(:title)

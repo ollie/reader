@@ -5,7 +5,6 @@ form action=new_session_path method="post"
       name="username"
       placeholder="Jméno"
       value=params[:username]
-      autofocus=('autofocus' unless params[:username].present?)
       class=('is-invalid' if defined?(login_failed) && login_failed)
     )
   span.d-block.form-group
@@ -13,7 +12,6 @@ form action=new_session_path method="post"
       type="password"
       name="password"
       placeholder="Heslo"
-      autofocus=('autofocus' if params[:username].present?)
       class=('is-invalid' if defined?(login_failed) && login_failed)
     )
   span.d-block.form-group

@@ -13,7 +13,6 @@ form action=url method="post"
         id="channel-feed-link"
         placeholder="http://www.example.org/feed.rss"
         value=channel.feed_link
-        autofocus="autofocus"
         class=('is-invalid' if channel.errors.on(:feed_link))
       )
       - if channel.errors.on(:feed_link)
